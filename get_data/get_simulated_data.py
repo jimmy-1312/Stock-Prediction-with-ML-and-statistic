@@ -24,6 +24,7 @@ def data_generator()
 """
 
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import math
 
@@ -70,11 +71,18 @@ def generate_data(N_days : int, variation : float, difficulty : str) -> np.array
 
     return pattern + noises
 
+def create_csv_data(total_size, N_days, variation, difficulty, store_path = "./get_data/stock_data.csv"):
+    df = [generate_data(N_days, variation, difficulty) for i in range(total_size)]
+    df = np.array(df)
+    df = pd.DataFrame(df)
+    df.to_csv(store_path)
+
 if __name__ == "__main__":
     # pattern = generate_pattern(100,"easy")
     # plt.plot(pattern)
     # noises = generate_noises(100,1)
     # plt.plot(noises)
-    data = generate_data(100, 1, "easy")
-    plt.plot(data)
-    plt.show()
+    # data = generate_data(100, 1, "easy")
+    # plt.plot(data)
+    # plt.show()
+    create_csv_data(total_size=1000,N_days=100,variation=1,difficulty="easy")
