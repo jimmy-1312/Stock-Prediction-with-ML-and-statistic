@@ -5,10 +5,6 @@ pattern choice: -- | noises distribution choice: --
 input:(N_days:how many days do you want, variation:variation of the noises)
 output: data(simulate the price) in numpy format, shape of (N_days,)
 
-structure:
-pattern_generator
-noise_generator
-data_generator
 
 To be improved:
 Design choice
@@ -25,8 +21,8 @@ def data_generator()
 
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import math
+from pathlib import Path
 
 def generate_pattern(N_days : int, difficulty : str) -> np.array:
     """equation
@@ -38,7 +34,8 @@ def generate_pattern(N_days : int, difficulty : str) -> np.array:
     equations = {
         "easy":lambda t:t**(1/2), 
         "medium":lambda t:t**(1/2) + math.sin(t),
-        "hard":lambda t:t**(1/2) + math.sin(t) + 1/t
+        "hard":lambda t:t**(1/2) + math.sin(t) + 1/(t+1),
+        "test":lambda t:1
         }
 
     try:
@@ -77,6 +74,10 @@ def create_csv_data(total_size, N_days, variation, difficulty, store_path = "./g
     df = pd.DataFrame(df)
     df.to_csv(store_path)
 
+def check_csv_data(path):
+    path = Path(path)
+    return path.exists()
+
 if __name__ == "__main__":
     # pattern = generate_pattern(100,"easy")
     # plt.plot(pattern)
@@ -85,4 +86,4 @@ if __name__ == "__main__":
     # data = generate_data(100, 1, "easy")
     # plt.plot(data)
     # plt.show()
-    create_csv_data(total_size=1000,N_days=100,variation=1,difficulty="easy")
+    create_csv_data(total_size=1000,N_days=100,variation=1,difficulty="medium",store_path="./save/data/medium.csv")
