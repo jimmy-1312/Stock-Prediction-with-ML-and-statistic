@@ -14,8 +14,6 @@ def generate_pattern()
 --> use function application directly toward array (faster)
 def generate_noises()
 --> use pytorch?
-def data_generator()
--->
 
 """
 
@@ -23,6 +21,7 @@ import numpy as np
 import pandas as pd
 import math
 from pathlib import Path
+import matplotlib.pyplot as plt
 
 def generate_pattern(N_days : int, difficulty : str) -> np.array:
     """equation
@@ -35,7 +34,7 @@ def generate_pattern(N_days : int, difficulty : str) -> np.array:
         "easy":lambda t:t**(1/2), 
         "medium":lambda t:t**(1/2) + math.sin(t),
         "hard":lambda t:t**(1/2) + math.sin(t) + 1/(t+1),
-        "test":lambda t:1
+        "test":lambda t:math.sin(t/2)
         }
 
     try:
@@ -68,10 +67,9 @@ def generate_data(N_days : int, variation : float, difficulty : str) -> np.array
 
     return pattern + noises
 
-def create_csv_data(total_size, N_days, variation, difficulty, store_path = "./get_data/stock_data.csv"):
-    df = [generate_data(N_days, variation, difficulty) for i in range(total_size)]
-    df = np.array(df)
-    df = pd.DataFrame(df)
+def create_csv_data(N_days, variation, difficulty, store_path):
+    df = generate_data(N_days, variation, difficulty)
+    df = pd.DataFrame(df,index=[f'day{i}' for i in range(N_days)],columns=["price"])
     df.to_csv(store_path)
 
 def check_csv_data(path):
@@ -86,4 +84,6 @@ if __name__ == "__main__":
     # data = generate_data(100, 1, "easy")
     # plt.plot(data)
     # plt.show()
-    create_csv_data(total_size=1000,N_days=100,variation=1,difficulty="medium",store_path="./save/data/medium.csv")
+    # create_csv_data(N_days=1000,variation=0,difficulty="test",store_path="./save/data/test.csv")
+    if not check_csv_data("./save/data/test.csv"):
+        print("yes")

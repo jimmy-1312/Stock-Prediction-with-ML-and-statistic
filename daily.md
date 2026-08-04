@@ -57,4 +57,27 @@ The way it is copying instead of learning, since it only work in exisiting range
 
 To_do:
 Implement several pattern to let it learn the relationships between input and output. (Contrast learning)
-Change LSTM structure tolearn the complex pattern.
+Change LSTM structure to learn the complex pattern.
+
+4/8/2026
+想法（未來再看）：把目標從預測價格變成選擇行動（賣出，買入，不動）,參考behaviour cloning, conditional -> action (flow matching)
+Change of strategy: seq_len = 5 , input shape = (B,L,1), output shape = (B,L,1), we only take (B,1)
+To_do:
+Make a baseline prediction model return (B,1) 
+Make a new dataset which dataloader load (B,L,1) *done*
+Make a evaluation function > input:y_pred(B,1),y_real(B,1), return RMSE
+
+Some thought: short seq_len is better than long seq_len in rnn? with same data
+
+RNN及普遍ML Model 强項：學習input->output 的規律，而不是predict 未來規律,或者延伸數學規律
+(1)股票沒有數學規律，而且rnn 沒有能力去延伸future Pattern 
+(2)rnn 需要足夠多且多變的input->output data, seq_len 太長導致training data size過少
+(3)短期股票波動很大程度只depends on previous few datas, seq_len 適中即可
+
+因此更改了：
+seq_len = 5, 有多點variation的stock data, 一條stock data 即可,模仿real data,(不過可以cobine different pattern in one curve)
+
+To_do:
+Make a baseline prediction model returning the last data point
+Make an evaluation function to give numeric comparision between different model
+More complex pattern
