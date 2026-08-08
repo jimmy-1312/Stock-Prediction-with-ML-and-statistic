@@ -81,3 +81,48 @@ To_do:
 Make a baseline prediction model returning the last data point
 Make an evaluation function to give numeric comparision between different model
 More complex pattern
+
+8/8/2026
+Choice of learning method:
+online RL, offline RL, behaviour cloning
+
+Weakness of:
+--price prediction: high variation of data
+--buy and sell: can it be able to understand the risk by just buy and sell data input?
+--log return/trend:more stable
+
+Change of target -> create a trading bot, time period from 1 - 4 hours(AI suggested)
+
+I want to develop a *self-improving* trading bot! 
+It is the main target, other things please don't think too much, just focus on this.
+
+So self-improving can be achieved by:
+skills(written by AI)
+online RL for everyday or every week result
+
+反正我就是想做一個agent ,可以聯通我whatsapp 每4小時去匯報一次情況，有時候不把握甚至可以問我。
+
+New idea:
+can make a pattern geneator (using classifier v.s. generator approach) for more data
+
+下一步可以做的：
+聯通whatsapp
+test LSTM model ability to learn under log return
+use state to art model(LightBGM,XGBoost,PatchTST)
+lightbgm/xgboost suitable for predict *trend*--prob of rise|stay|drop, (3 categories)
+LSTM,Amazon Chronos-2: log return
+
+DDG-DA + TFT (Temporal Fusion Transformer)
+can learn it's self learning technique
+
+
+Fouund that the original y_real is wrong already, should only use the next y for target instead of a seq_y, the front x in lstm have no idea what the next y is, only if the input x is long enough and lstm learn it's pattern, it's predictable.
+
+But i won't want to keep developing the price prediction anymore, it's time to change it to log return.
+
+Next->
+change the lstm structure, only predict last y
+change the dataset
+baseline(pred 0) and eval(rmse) do not need a new page, just implement inside main page, it's easy.
+More complex pattern
+do whatsapp.
