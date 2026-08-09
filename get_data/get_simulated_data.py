@@ -34,7 +34,7 @@ def generate_pattern(N_days : int, difficulty : str) -> np.array:
         "easy":lambda t:t**(1/2), 
         "medium":lambda t:t**(1/2) + math.sin(t),
         "hard":lambda t:t**(1/2) + math.sin(t) + 1/(t+1),
-        "test":lambda t:math.sin(t/2)
+        "test":lambda t:math.sin(t/2) + 10
         }
 
     try:
@@ -81,9 +81,9 @@ if __name__ == "__main__":
     # plt.plot(pattern)
     # noises = generate_noises(100,1)
     # plt.plot(noises)
-    # data = generate_data(100, 1, "easy")
-    # plt.plot(data)
-    # plt.show()
+    data = generate_data(1000, 0, "test")
+    plt.plot(data)
+    plt.show()
     # create_csv_data(N_days=1000,variation=0,difficulty="test",store_path="./save/data/test.csv")
-    if not check_csv_data("./save/data/test.csv"):
-        print("yes")
+    # if not check_csv_data("./save/data/test.csv"):
+    #     print("yes")

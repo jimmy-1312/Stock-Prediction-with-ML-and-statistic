@@ -126,3 +126,7 @@ change the dataset
 baseline(pred 0) and eval(rmse) do not need a new page, just implement inside main page, it's easy.
 More complex pattern
 do whatsapp.
+
+9/8/2026
+why lstm can learn time series data?
+what do every conversation in hermes actually pass.

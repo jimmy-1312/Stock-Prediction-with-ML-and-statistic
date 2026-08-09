@@ -4,59 +4,49 @@ from model.LSTM import LSTM
 from get_data import get_simulated_data
 from train import training
 import matplotlib.pyplot as plt
+import numpy as np
 
-class LSTM_dataset_price(torch.utils.data.Dataset):
-    def __init__(self, seq_len,data_path):
-        self.data = pd.read_csv(data_path,index_col=0).values
+class Log_return(torch.utils.data.Dataset):
+    def __init__(self, input_len, pred_len ,data_path):
+        self.data = pd.read_csv(data_path,index_col=0).values #shape of (1000,1)
         self.length = len(self.data)
-        self.seq_len = seq_len + 1
+        self.input_len = input_len
+        self.seq_len = input_len + pred_len
     def __len__(self):
         return self.length - self.seq_len + 1
     def __getitem__(self, idx):
         seq = self.data[idx:idx+self.seq_len]
-        x_seq, y_seq = seq[:-1],seq[1:]
-        return torch.tensor(x_seq,dtype=torch.float32), torch.tensor(y_seq,dtype=torch.float32)
-
-class LSTM_dataset_logreturn(torch.utils.data.Dataset):
-    def __init__(self, seq_len,data_path):
-        self.data = pd.read_csv(data_path,index_col=0).values
-        self.length = len(self.data)
-        self.seq_len = seq_len + 1
-    def __len__(self):
-        return self.length - self.seq_len + 1
-    def __getitem__(self, idx):
-        seq = self.data[idx:idx+self.seq_len]
-        x_seq, y_seq = seq[:-1],seq[1:]
-        return torch.tensor(x_seq,dtype=torch.float32), torch.tensor(y_seq,dtype=torch.float32)
+        x, y = seq[:self.input_len], seq[-1]
+        x, y = torch.tensor(x,dtype=torch.float32), torch.tensor(y,dtype=torch.float32)
+        x, y_real = torch.log(x[1:]/x[:-1]), torch.log(y/x[-1])
+        return x, y_real
 
 mode = "test"
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-input_size,hidden_size,num_layers = 1,50,1
+input_size,hidden_size,output_size,num_layers = 1,50,1,1
 epoches = 50
 difficulty = "test"
 BATCH_SIZE = 100
 N_days = 1000
-seq_len = 5
+input_len, pred_len = 6,4
 
 name = f"lstm_{epoches}ep_{hidden_size}hidden_{difficulty}"
 
-# path = f"./save/data/{difficulty}.csv"
-# dataset = LSTM_dataset_new(seq_len=5,data_path=path)
+path = f"./save/data/{difficulty}.csv"
+# dataset = Log_return(input_len=input_len,pred_len=pred_len,data_path=path)
 # dataloader = torch.utils.data.DataLoader(dataset=dataset,batch_size=BATCH_SIZE,shuffle=True)
-# print(next(iter(dataloader))[0].shape)
+# print(next(iter(dataloader))[1].shape)
 
 
 if mode == "train":
-    model = LSTM(input_size,hidden_size,num_layers)
+    model = LSTM(input_size,hidden_size,output_size,num_layers)
     model = model.to(device)
     path = f"./save/data/{difficulty}.csv"
     if not get_simulated_data.check_csv_data(path):
         get_simulated_data.create_csv_data(N_days=N_days,variation=0,difficulty=difficulty,store_path=path)
     
-    dataset = LSTM_dataset_price(seq_len=seq_len,data_path=path)
-    train_dataset = LSTM_dataset_price(seq_len=seq_len,data_path=path)
+    dataset = Log_return(input_len=input_len,pred_len=pred_len,data_path=path)
     dataloader = torch.utils.data.DataLoader(dataset=dataset,batch_size=BATCH_SIZE,shuffle=True)
-    test_dataloader = torch.utils.data.DataLoader(dataset=train_dataset,batch_size=BATCH_SIZE,shuffle=True)
 
     loss_history = training.train(model,dataloader,device,epoches)
     torch.save(model.state_dict(), f"./save/model/{name}.pth")
@@ -64,31 +54,36 @@ if mode == "train":
     plt.savefig(f"./save/loss/{name}.png")
 
 if mode == "test":
-    model = LSTM(input_size,hidden_size,num_layers)
+    model = LSTM(input_size,hidden_size,output_size,num_layers)
     model.load_state_dict(torch.load(f"./save/model/{name}.pth"))
 
-    real_pattern = get_simulated_data.generate_pattern(100,difficulty="test")
-    plt.plot(real_pattern, 'b')
+    dataset = Log_return(input_len=input_len,pred_len=pred_len,data_path=path)
 
-    data_with_noises = get_simulated_data.generate_data(100,0,"test")
-    data_with_noises = list(data_with_noises)[:50]
-    
-    baseline_loss = []
-    LSTM_loss = []
+    y_real_list = []
+    y_pred_list = []
+    y_baseline_list = []
     with torch.no_grad():
-        for i, batch in test_dataloader:
-            batch = [r for r in batch]
-            x, y_real = batch
-            out_lstm = model(x)
-    #     for i in range(100):
-    #         out = model(torch.tensor(data_with_noises[-seq_len:],dtype=torch.float32).view(1,-1,1))
-    #         data_with_noises.append(out.detach().cpu().numpy()[0,-1,0])
-            
-        # out = model(torch.tensor(data_with_noises,dtype=torch.float32).view(1,-1,1))
-        # out = out.detach().cpu().numpy()
-    plt.plot(data_with_noises, 'r')
-    # plt.plot(out[0,:,0],'g')
-    # print(data_with_noises)
-    # print(out)
-    plt.savefig(f"./save/visualize/{name}.png")
-    plt.show()
+        for i in range(100):
+            x ,y_real = dataset[i]
+            y_real_list.append(y_real.item())
+
+            y_pred = model(x.unsqueeze(0))
+            y_pred_list.append(y_pred.item())
+
+            y_baseline_list.append(0)
+    
+    # plt.plot(y_real_list, 'r', label="real")
+    # plt.plot(y_pred_list, 'g', label="pred")
+    # plt.plot(y_baseline_list,'b',label="baseline")
+    # plt.legend(loc="upper right")
+    # plt.xlabel("Samples")
+    # plt.ylabel("Return Rate")
+    # plt.title("Return Rate Prediction")
+    # plt.savefig(f"./save/visualize/{name}.png")
+    # plt.show()
+    y_real_list = np.array(y_real_list)
+    y_pred_list = np.array(y_pred_list)
+    y_baseline_list = np.array(y_baseline_list)
+    lstm_rmse = np.sqrt(np.mean((y_real_list - y_pred_list)**2))
+    baseline_rmse = np.sqrt(np.mean((y_real_list - y_baseline_list)**2))
+    print(f"RMSE of \nLSTM : {lstm_rmse}\nBaseline : {baseline_rmse}")
