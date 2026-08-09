@@ -121,9 +121,9 @@ Fouund that the original y_real is wrong already, should only use the next y for
 But i won't want to keep developing the price prediction anymore, it's time to change it to log return.
 
 Next->
-change the lstm structure, only predict last y
-change the dataset
-baseline(pred 0) and eval(rmse) do not need a new page, just implement inside main page, it's easy.
+change the lstm structure, only predict last y *done*
+change the dataset *done*
+baseline(pred 0) and eval(rmse) do not need a new page, just implement inside main page, it's easy. *done*
 More complex pattern
 do whatsapp.
 
