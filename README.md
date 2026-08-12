@@ -1,4 +1,4 @@
-what I wanna do:
+<!-- what I wanna do:
 A stock prediction model, which input is stock data, output is (1)price (2)rise or decreased** (3)vibration over a period
 So the first step I wanna do is to get the data first, get them into a csv file.
 
@@ -36,4 +36,8 @@ introduction: using this to get pattern + noises, each data point represent a da
 pattern choice: -- | noises distribution choice: --
 
 input:(N_days:how many days do you want, variation:variation of the noises)
-output: data(simulate the price) in numpy format, shape of (N_days,)
+output: data(simulate the price) in numpy format, shape of (N_days,) -->
+
+Update:
+This project will be used to discover and understand the AI model, and build my own AI model.
+Specifically on stock prediction.

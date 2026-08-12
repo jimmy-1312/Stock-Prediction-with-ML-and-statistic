@@ -9,7 +9,7 @@ import torch.nn as nn
 #data shape(B,L,I) in pytorch tensor
 def train(model,dataloader,device,EPOCHES):
     
-    optimizer = torch.optim.Adam(model.parameters(), lr = 1e-3)
+    optimizer = torch.optim.Adam(model.parameters(), lr = 1e-4)
     criterion = nn.MSELoss()
     epoch_iterations= len(dataloader)
     loss_history = []
@@ -31,10 +31,12 @@ def train(model,dataloader,device,EPOCHES):
 
             loss.backward()
 
+            print(loss.item())
+
             optimizer.step()
 
             epoch_loss += loss.item()
-        
+
         avg_epoch_loss = epoch_loss/epoch_iterations
         loss_history.append(avg_epoch_loss)
             

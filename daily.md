@@ -130,3 +130,18 @@ do whatsapp.
 9/8/2026
 why lstm can learn time series data?
 what do every conversation in hermes actually pass.
+
+11/8/2026
+Next step:
+(1)Real data input, from now on discard simulated data cuz it can not correctly simulate the character of real data.
+(2) LSTM-CNN
+(3) transfomer
+(4) Explore how each model perform, why, compare, you need to look deep into the reason, I hope to deep into the params if possible.
+
+12/8/2026
+Next step:
+(1)Understand https://www.kaggle.com/code/kelmory/experiment-of-stock-price-prediction#Preprocessing 
+for preprocessing and feature engineering
+(2)See how minmax scale work, and convolution work
+(3)think about time series application ++--+ in course.
+(4)Use more data from other stocks
