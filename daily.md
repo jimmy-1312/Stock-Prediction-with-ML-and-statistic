@@ -145,3 +145,18 @@ for preprocessing and feature engineering
 (2)See how minmax scale work, and convolution work
 (3)think about time series application ++--+ in course.
 (4)Use more data from other stocks
+
+13/8/2026
+Kaggle resources from some smart guys: https://www.kaggle.com/code/kelmory/experiment-of-stock-price-prediction
+data science from medium:https://medium.com/@aditib259/predicting-stock-prices-using-lstms-time-series-forecasting-a-step-by-step-guide-a70ebb04bbb8
+
+14/8/2026
+Something to change:
+(1) Inside LSTM structure -- Use `Close` to select instead of number, since the close are not always in first.
+(2) Inside dataset of test -- Use `Close` to select y as same reason of above.
+
+Next target:
+(1)Add more feature, now I add 10 stocks, every of 5 years, data for training, ~ 10000 size, not sure enough or not.
+But lstm learnt nothing, need more features(技術指標,指數,...pattern) for more learning
+(2)Try adjust interval to 1h
+(3)Try out XGboost or Nbeat or other quick model, to see the difference.

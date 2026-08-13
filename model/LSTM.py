@@ -15,6 +15,6 @@ class LSTM(nn.Module):
         out, _ =  self.lstm(x)
         out = out[:,-1,:]
         out = self.linear(out)
-        last_close_return = x[:, -1, [3]] 
+        # last_close_return = x[:, -1, [0]] 
         # return out + last_close_return
         return out
