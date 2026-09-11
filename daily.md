@@ -120,31 +120,31 @@ Fouund that the original y_real is wrong already, should only use the next y for
 
 But i won't want to keep developing the price prediction anymore, it's time to change it to log return.
 
-Next->
+[Next]->
 change the lstm structure, only predict last y *done*
 change the dataset *done*
 baseline(pred 0) and eval(rmse) do not need a new page, just implement inside main page, it's easy. *done*
-More complex pattern
-do whatsapp.
+More complex pattern *discard*
+do whatsapp. *should not lsit here*
 
 9/8/2026
 why lstm can learn time series data?
 what do every conversation in hermes actually pass.
 
 11/8/2026
-Next step:
-(1)Real data input, from now on discard simulated data cuz it can not correctly simulate the character of real data.
+[Next] step:
+(1)Real data input, from now on discard simulated data cuz it can not correctly simulate the character of real data. *done*
 (2) LSTM-CNN
 (3) transfomer
 (4) Explore how each model perform, why, compare, you need to look deep into the reason, I hope to deep into the params if possible.
 
 12/8/2026
-Next step:
+[Next] step:
 (1)Understand https://www.kaggle.com/code/kelmory/experiment-of-stock-price-prediction#Preprocessing 
 for preprocessing and feature engineering
-(2)See how minmax scale work, and convolution work
-(3)think about time series application ++--+ in course.
-(4)Use more data from other stocks
+(2)See how minmax scale work, and convolution work *not useful*
+(3)think about time series application ++--+ in course. *don't want*
+(4)Use more data from other stocks *done*
 
 13/8/2026
 Kaggle resources from some smart guys: https://www.kaggle.com/code/kelmory/experiment-of-stock-price-prediction
@@ -155,8 +155,86 @@ Something to change:
 (1) Inside LSTM structure -- Use `Close` to select instead of number, since the close are not always in first.
 (2) Inside dataset of test -- Use `Close` to select y as same reason of above.
 
-Next target:
-(1)Add more feature, now I add 10 stocks, every of 5 years, data for training, ~ 10000 size, not sure enough or not.
-But lstm learnt nothing, need more features(技術指標,指數,...pattern) for more learning
-(2)Try adjust interval to 1h
-(3)Try out XGboost or Nbeat or other quick model, to see the difference.
+[Next] target:
+(1)more features(技術指標,指數,...pattern) __3__
+(2)Add 1h interval *done*
+(3)Try out XGboost or Nbeat or other quick model, to see the difference. __4__
+(4)Change other 4 features to percentage difference to close. __2__ *done*
+(5)Update the selector of close price, in either LSTM and test __1__ *done*
+
+19/8/2026
+These days are developing agents, today's back
+Implemented a classifier dataset to see improvement(should be better since can't simply guess?)
+More impression about feature engineering, 
+*rule of thumb* -- features are in the same scale
+To achieve this, may apply normalization, minmax scaling etc. However, not always should use normalize when data are not
+following normal distribution initially, for example volume seems right skewed, so decide the scaling depends on data distribution.
+
+[To_do]: 
+(1)Diffusion model
+(2)Feature engineering of volume(Now the scale is local scale, turn to global scale) **Can be dalayed**
+(3)Implement a new feature(gap_indicator) 
+(4)classification dataset *done*
+(5)Change open,high and low(i think at least high and low should be [0,1] instead? and do they follow normal) *done*
+(6)test out different ML models (file:///C:/Users/user/Downloads/Predicting_stock_returns_using_machine_learning_co.pdf)
+
+24/8/2026
+Check out qlib, see their structure and model.
+
+25/8/2026
+Today learnt:
+(1) Use Decision tree(lightGBM) or light model to do feature selection on factors(qlib provide 158 factors calculating from base features)
+(2) 與其學習並預測某几只股票的pattern and price(return), 不如learn the relationship between different stocks (high volume vs low colume, high price vs low price) to provide a broad view of market to model.
+Advantages: a lot more of datas (規律應該是作用在所有的stocks 上面的！)
+(3) finance 用詞: beta = baseline return , alpha = my_model - baseline return
+
+[下一步]：
+(1)解析qlib 的Alpha158 features engineering, 以什麽作爲target, buying rules.*done*
+-> 158 features: 4 price features, 9 hard-code features, 135 rolling features, they then are being preprocessed including normalized(after appliying transformation to make them approximate to nromal), isnafill etc.
+-> target: the earn from t+1 to t+2 close.
+-> buying strategy: purchase the top50(preset) most earning stocks every day, sell those not in list.
+(2)它是基於什麽去選股的(average return? or it's target is already average return)*done*
+-> by predicted return (close(t+2)/close(t+1) -1)
+
+it seems lightgbm is really good, lets test out it.
+
+[論文注意]：
+可復核性(讀者可以重現論文的結果)，professional quantification metric for model.
+
+29/9/2026
+既然用不了qlib, 那就由自己實現
+
+[To_do]:
+(1) Alpha158 features *done*
+(2) lstm result
+(3) mlp result
+(4) lightgbm result
+(5) Add stock percentage in S&P500 feature
+
+30/8/2026
+注意：yahoo 用了前復權(forward adjust)(keep latest price unchanged) 去解決stock split, 而qlib 用了後復權(backward adjust).
+Forward adjust may cause look ahead bias, but in my case using Alpha158, the may not be a problem since alpha158 are 
+capturing the percentage change of data, 無論是前復權還是後復權, 股價之間的變化幅度(以percentage計算)都是一樣.
+另外，可以考慮增加一個factor 計算the percentage occupation of current stock in S&P500, 這樣就補全了Alpha158 只能捕捉變化而忽略了
+股票實際價格的影響(大股票和小股票的規律可能不同)
+Alpha158 的所有factor 都去除了不同股票之間股價/股份大小不一的影響, they are unit factor.
+
+pipeline:given data period-> fetch from source -> to numpy array-> make a new feature list(length of full_len - longest window_len - target_len) -> for every feature and target -> combine into numpy array -> return numpy array
+
+1/9/2026
+change rolling output as raw for apply.
+
+2/9/2026
+Alpha157 initialized successfully, something to be aware of:
+(1)implement target
+(2)correlation may return nan
+(3)closed "both" vs "left" inconsistent
+(4)may replace .combine with pd.concat([s1,s2],axis=1).max(axis=1)
+
+3/9/2026
+[Side_Quest]
+You may discover whether correlated features affect weighting of training(is it the best case that features are all independent? follow a guassian distribution with covariance = 0)
+But take ur time, it's not as important as finish the project, without this you can still finish.
+
+11/9/2026
+A lot of things have been implemented: 500 stock dataset, mlp, lightgbm model, 20 selected feature v.s. 157 features on lightgbm. However, the result is not satisfied, it might scored useful R^2 for stocks including Walmart, Apple, however it can also perform extremely poor at Nvidia, google, where from the graph the model almost alway perdict 0 return, which means it learnt nothing. And with training on all 500 stocks, around 1 million data * 20 features, even if we shorten the time from 2017 -> 2026 to 2017 -> 2022, which have fewer impact by AI, the stock prediction still learnt nothing. So I'm pretty exhausted right now, what could possibly be my next step??  
