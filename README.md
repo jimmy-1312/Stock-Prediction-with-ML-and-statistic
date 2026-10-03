@@ -12,11 +12,16 @@ data/
 	feat_eng.py            Technical feature calculations
 	load_data.py           Load and filter stock data
 	preprocess.py          Normalization and train-validation split
-model/lightGBM.py        LightGBM training function
+    
+model/
+    lightGBM.py            LightGBM training function
+    LSTM.py                LSTM model(you can skip this for now)          
+    MLP.py                 MLP model(you can skip this for now)
+
 save/data/               Downloaded raw data
 save/features_20/        Generated feature data
 result/                  Charts and quantitative reports
-train/                   Training-related scripts
+train/                   Training-related scripts(you can skip this for now)   
 ```
 
 ## Run the project
@@ -91,5 +96,6 @@ Full reports:
 
 - Construct a more realistic transaction-cost and turnover profolio testing.
 - Add risk consideration(Risk model), position constraints, and volatility adjustment.
-- Test more models and measure the contribution of each feature(feature visualization is possible?).
+- Feauture explainable and visualization, also should explain evaluation metrics
+- More models
 
