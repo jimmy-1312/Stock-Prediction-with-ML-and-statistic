@@ -12,7 +12,7 @@ data/
 	feat_eng.py            Technical feature calculations
 	load_data.py           Load and filter stock data
 	preprocess.py          Normalization and train-validation split
-    
+
 model/
     lightGBM.py            LightGBM training function
     LSTM.py                LSTM model(you can skip this for now)          
@@ -31,6 +31,7 @@ Requirements:
 - Python 3.10 or newer
 - Internet access for downloading data with `yfinance`
 - (Optional) I encourage to use Anaconda to create seperate env
+
 From the project root, run:
 
 ```powershell
