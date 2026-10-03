@@ -1,0 +1,12 @@
+
+============================== QUANT PERFORMANCE REPORT ==============================
+Annualized Return    : 28.02%
+Base ann return      : 16.23%
+Annualized Sharpe    : 1.08
+Maximum Drawdown     : -29.92%
+Mean IC              : 0.0107
+ICIR                 : 0.08
+Positive IC days     : 54.85%
+Sharpe Ratio         : 1.08
+Sharpe Ratio 95% CI  : [-0.35, 2.51]
+======================================================================================

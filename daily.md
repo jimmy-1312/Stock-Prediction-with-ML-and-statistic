@@ -201,7 +201,7 @@ it seems lightgbm is really good, lets test out it.
 [論文注意]：
 可復核性(讀者可以重現論文的結果)，professional quantification metric for model.
 
-29/9/2026
+29/8/2026
 既然用不了qlib, 那就由自己實現
 
 [To_do]:
@@ -238,3 +238,15 @@ But take ur time, it's not as important as finish the project, without this you 
 
 11/9/2026
 A lot of things have been implemented: 500 stock dataset, mlp, lightgbm model, 20 selected feature v.s. 157 features on lightgbm. However, the result is not satisfied, it might scored useful R^2 for stocks including Walmart, Apple, however it can also perform extremely poor at Nvidia, google, where from the graph the model almost alway perdict 0 return, which means it learnt nothing. And with training on all 500 stocks, around 1 million data * 20 features, even if we shorten the time from 2017 -> 2026 to 2017 -> 2022, which have fewer impact by AI, the stock prediction still learnt nothing. So I'm pretty exhausted right now, what could possibly be my next step??  
+
+23/9/2026
+往後的發展方向：
+基於數學模型的風險管理(如何最優化利用模型提取的alpha信號)
+feature 的有效性證明, 可視化
+model development
+feature engineering
+
+2/10/2026
+Weekly report objective:
+(1) A complete pipeline, real money,real fee, real profolio,be modulized, [data,feature,model,profolio,rules,cross-norm]
+(2) Evaluation metrics

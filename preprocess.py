@@ -55,7 +55,7 @@ def transform_custom_df(df, clip_label_outlier=True, fillna_label=True,
     # ==========================================
     
     # 1. Label 處理
-    cols = df.columns[df.columns.str.contains("^LABEL")]
+    cols = df.columns[df.columns.str.contains("^Return")]
     for col in cols:
         df[col] = _label_norm(df[col])
 

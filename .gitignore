@@ -1,3 +1,12 @@
-_pycache_
-.vscode
-*.csv
+_pycache_/
+.vscode/
+save/features_full/
+finished_feature.txt
+sp500.csv
+light.py
+new.py
+notes.md
+preprocess.py
+test.py
+testing.py
+.gitignore

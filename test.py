@@ -61,7 +61,7 @@ seq_len = 20
 
 name = f"mlp_{epoches}ep_{hidden_size}hidden"
 # tickers = ["NVDA"]
-tickers = ['A', 'AAPL', 'ABBV', 'ABNB', 'ABT', 'ACGL', 'ACN', 'ADBE']
+tickers = ["AAPL"]
 
 # dataset = Log_return(input_len=input_len,pred_len=pred_len,data_path=path)
 # dataloader = torch.utils.data.DataLoader(dataset=dataset,batch_size=BATCH_SIZE,shuffle=True)
