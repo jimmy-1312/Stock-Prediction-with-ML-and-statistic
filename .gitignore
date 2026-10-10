@@ -1,4 +1,4 @@
-_pycache_/
+__pycache__/
 .vscode/
 save/features_full/
 finished_feature.txt
@@ -9,4 +9,4 @@ notes.md
 preprocess.py
 test.py
 testing.py
-.gitignore
+daily.md
