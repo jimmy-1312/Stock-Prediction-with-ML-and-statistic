@@ -78,7 +78,7 @@ The script saves:
 - A portfolio chart in `result/profolio/`
 - A quantitative report in `result/quantitative/`
 
-The report includes annualized return, S&P 500 return, Sharpe ratio, maximum drawdown, mean Rank IC, ICIR, positive IC days, and a Sharpe ratio confidence interval. The backtest also compares the model portfolio with a random portfolio and the S&P 500.
+The report includes annualized return, S&P 500 return, maximum drawdown, mean Rank IC, positive IC days and Sharpe ratio. The backtest also compares the model portfolio with a random portfolio and the S&P 500.
 
 ### Portfolio performance(with a random seed)
 
