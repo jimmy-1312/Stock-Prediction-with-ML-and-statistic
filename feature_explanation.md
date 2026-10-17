@@ -11,9 +11,9 @@ Notation:
   lowest prices on day $$t$$.
 - $$V_t$$ is the trading volume.
 - $$d$$ is the rolling-window length.
-- $$\operatorname{Var}_d(C)$$ and $$\operatorname{Std}_d(C)$$ are rolling
+- $$\mathrm{Var}_d(C)$$ and $$\mathrm{Std}_d(C)$$ are rolling
   variance and standard deviation.
-- $$\operatorname{Corr}_d(a,b)$$ is the rolling correlation.
+- $$\mathrm{Corr}_d(a,b)$$ is the rolling correlation.
 
 ## Price trend and regression features
 
@@ -23,8 +23,8 @@ These features measure the average squared error left after fitting a linear
 trend to the closing price over 5 or 10 days:
 
 $$
-\operatorname{RESI}_d =
-\frac{\operatorname{Var}_d(C)
+\mathrm{RESI}_d =
+\frac{\mathrm{Var}_d(C)
  \left(1-R_d^2\right)}{C_t}
 $$
 
@@ -43,8 +43,8 @@ These features are the squared correlation between closing price and time over
 5, 10, 20, and 60 days:
 
 $$
-\operatorname{RSQR}_d =
-\operatorname{Corr}_d(C,\text{time})^2
+\mathrm{RSQR}_d =
+\mathrm{Corr}_d(C,\text{time})^2
 $$
 
 They measure how closely the recent price movement follows a linear trend. A
@@ -59,7 +59,7 @@ In the implementation, this feature is the first closing price in the
 60-day window divided by the current closing price:
 
 $$
-\operatorname{ROC}_{60} =
+\mathrm{ROC}_{60} =
 \frac{C_{t-59}}{C_t}
 $$
 
@@ -75,7 +75,7 @@ short-term expected returns because of momentum or mean reversion.
 KLEN measures the daily high-low range relative to the opening price:
 
 $$
-\operatorname{KLEN}_t =
+\mathrm{KLEN}_t =
 \frac{H_t-L_t}{O_t}
 $$
 
@@ -89,7 +89,7 @@ KLOW measures the distance from the lower end of the candle body to the daily
 low:
 
 $$
-\operatorname{KLOW}_t =
+\mathrm{KLOW}_t =
 \frac{\min(O_t,C_t)-L_t}{O_t}
 $$
 
@@ -105,8 +105,8 @@ These features measure the rolling correlation between the closing price and
 the logarithm of trading volume over 5, 10, or 20 days:
 
 $$
-\operatorname{CORR}_d =
-\operatorname{Corr}_d(C,\log(V))
+\mathrm{CORR}_d =
+\mathrm{Corr}_d(C,\log(V))
 $$
 
 A positive value means that higher prices tend to occur with higher volume,
@@ -120,8 +120,8 @@ These features measure the relationship between daily price changes and daily
 volume changes:
 
 $$
-\operatorname{CORD}_d =
-\operatorname{Corr}_d
+\mathrm{CORD}_d =
+\mathrm{Corr}_d
 \left(
 \frac{C_t}{C_{t-1}},
 \log\left(\frac{V_t}{V_{t-1}}+1\right)
@@ -139,8 +139,8 @@ VSTD5 measures the standard deviation of volume over the previous 5 days
 relative to the current volume:
 
 $$
-\operatorname{VSTD5} =
-\frac{\operatorname{Std}_5(V)}{V_t}
+\mathrm{VSTD5} =
+\frac{\mathrm{Std}_5(V)}{V_t}
 $$
 
 A high value indicates unstable or changing trading activity. Sudden volume
@@ -159,8 +159,8 @@ $$
 The feature is calculated as:
 
 $$
-\operatorname{WVMA}_d =
-\frac{\operatorname{Std}_d(w)}{\operatorname{Mean}_d(w)}
+\mathrm{WVMA}_d =
+\frac{\mathrm{Std}_d(w)}{\mathrm{Mean}_d(w)}
 $$
 
 WVMA5 captures short-term changes in activity, while WVMA60 captures a
@@ -176,8 +176,8 @@ STD5 is the rolling standard deviation of closing prices over 5 days,
 normalized by the current closing price:
 
 $$
-\operatorname{STD5} =
-\frac{\operatorname{Std}_5(C)}{C_t}
+\mathrm{STD5} =
+\frac{\mathrm{Std}_5(C)}{C_t}
 $$
 
 It measures short-term price volatility on a comparable scale across stocks.
