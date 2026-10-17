@@ -65,7 +65,7 @@ python run.py
 8. Provide Quantitative result
 (the backtesting and quantitative result will be stored in result/profolio and result/quantitative)
 
-To compare normalization settings, change this line in profolio.py and run the script again:
+To compare normalization settings, change this line in run.py and run the script again:
 
 ```python
 cross_norm = True
