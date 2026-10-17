@@ -1,0 +1,7 @@
+Metric,Mean,SE,95% CI
+Annualized Return,35.22%,0.35%,"[34.53%, 35.92%]"
+Base Annualized Return,16.67%,0.00%,"[16.67%, 16.67%]"
+Maximum Drawdown,-28.88%,0.13%,"[-29.15%, -28.62%]"
+Mean IC,0.0105,0.00006,"[0.0104, 0.0106]"
+Positive IC Rate,54.71%,0.08%,"[54.55%, 54.87%]"
+Sharpe Ratio,1.28,0.01,"[1.26, 1.30]"

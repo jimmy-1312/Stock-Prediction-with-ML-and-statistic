@@ -37,9 +37,15 @@ def load_features_data(tickers):
     stock_list = []
 
     for ticker in tickers:
-        df = pd.read_csv(f"./save/features_20/{ticker}_features.csv",index_col = 0).values
-
+        df = pd.read_csv(f"./save/features_20/{ticker}_features.csv",index_col=0).values
+        
         stock_list.append(df)
 
     data = np.stack(stock_list,axis=0)
     return data
+
+def load_date(tickers):
+    ticker = tickers[0]
+    date = pd.read_csv(f"./save/features_20/{ticker}_features.csv")["Date"]
+    date = [d.split(" ")[0] for d in date]
+    return date

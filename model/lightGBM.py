@@ -1,6 +1,6 @@
 import lightgbm as lgb
 
-def train_lightgbm_model(X_train,Y_train):
+def train_lightgbm_model(X_train,Y_train,seed:int):
     lightgbm_data = lgb.Dataset(X_train, label=Y_train)
 
     params = {
@@ -13,7 +13,7 @@ def train_lightgbm_model(X_train,Y_train):
         "min_data_in_leaf": 200, #200
         # "lambda_l1": 0.5,
         # "lambda_l2": 1,
-        "seed": 43,
+        "seed": seed,
         'verbosity': -1,
     }
 
