@@ -101,8 +101,8 @@ Normalization increased the annualized return and ranking performance slightly, 
 
 Full reports:
 
-- [Without normalization](result/quantitative/summary_k=50_CN=F.txt)
-- [With normalization](result/quantitative/summary_k=50_CN=T.txt)
+- [Without normalization](result/quantitative/summary_k=50_CN=F.csv)
+- [With normalization](result/quantitative/summary_k=50_CN=T.csv)
 
 ## Future work
 

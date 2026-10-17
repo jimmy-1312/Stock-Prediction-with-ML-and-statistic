@@ -7,13 +7,13 @@ below describe possible reasons why they may help rank future stock returns.
 
 Notation:
 
-- \(C_t\), \(O_t\), \(H_t\), and \(L_t\) are the closing, opening, highest, and
-  lowest prices on day \(t\).
-- \(V_t\) is the trading volume.
-- \(d\) is the rolling-window length.
-- \(\operatorname{Var}_d(C)\) and \(\operatorname{Std}_d(C)\) are rolling
+- $$C_t$$, $$O_t$$, $$H_t$$, and $$L_t$$ are the closing, opening, highest, and
+  lowest prices on day $$t$$.
+- $$V_t$$ is the trading volume.
+- $$d$$ is the rolling-window length.
+- $$\operatorname{Var}_d(C)$$ and $$\operatorname{Std}_d(C)$$ are rolling
   variance and standard deviation.
-- \(\operatorname{Corr}_d(a,b)\) is the rolling correlation.
+- $$\operatorname{Corr}_d(a,b)$$ is the rolling correlation.
 
 ## Price trend and regression features
 
@@ -22,13 +22,13 @@ Notation:
 These features measure the average squared error left after fitting a linear
 trend to the closing price over 5 or 10 days:
 
-\[
+$$
 \operatorname{RESI}_d =
 \frac{\operatorname{Var}_d(C)
  \left(1-R_d^2\right)}{C_t}
-\]
+$$
 
-where \(R_d^2\) is the squared correlation between closing price and time in
+where $$R_d^2$$ is the squared correlation between closing price and time in
 the rolling window.
 
 A low value means that prices follow a relatively clear trend. A high value
@@ -42,10 +42,10 @@ next-day ranking.
 These features are the squared correlation between closing price and time over
 5, 10, 20, and 60 days:
 
-\[
+$$
 \operatorname{RSQR}_d =
 \operatorname{Corr}_d(C,\text{time})^2
-\]
+$$
 
 They measure how closely the recent price movement follows a linear trend. A
 higher value indicates a more consistent upward or downward movement, although
@@ -58,13 +58,13 @@ patterns.
 In the implementation, this feature is the first closing price in the
 60-day window divided by the current closing price:
 
-\[
+$$
 \operatorname{ROC}_{60} =
 \frac{C_{t-59}}{C_t}
-\]
+$$
 
 It is therefore an inverse price-change measure rather than the usual
-\(C_t/C_{t-59}-1\) definition. It gives information about the stock's longer
+$$C_t/C_{t-59}-1$$ definition. It gives information about the stock's longer
 term price movement. Stocks with different long-term trends may have different
 short-term expected returns because of momentum or mean reversion.
 
@@ -74,10 +74,10 @@ short-term expected returns because of momentum or mean reversion.
 
 KLEN measures the daily high-low range relative to the opening price:
 
-\[
+$$
 \operatorname{KLEN}_t =
 \frac{H_t-L_t}{O_t}
-\]
+$$
 
 A large value indicates a wide daily trading range and therefore stronger
 intraday movement or uncertainty. It may help the model identify stocks with
@@ -88,10 +88,10 @@ high short-term activity, volatility, or breakout potential.
 KLOW measures the distance from the lower end of the candle body to the daily
 low:
 
-\[
+$$
 \operatorname{KLOW}_t =
 \frac{\min(O_t,C_t)-L_t}{O_t}
-\]
+$$
 
 A large lower wick may indicate that prices fell during the day but recovered
 before closing. This can reflect buying pressure or rejection of lower prices,
@@ -104,10 +104,10 @@ which may contain short-term reversal information.
 These features measure the rolling correlation between the closing price and
 the logarithm of trading volume over 5, 10, or 20 days:
 
-\[
+$$
 \operatorname{CORR}_d =
 \operatorname{Corr}_d(C,\log(V))
-\]
+$$
 
 A positive value means that higher prices tend to occur with higher volume,
 while a negative value suggests the opposite. This relationship may help
@@ -119,14 +119,14 @@ weaker participation.
 These features measure the relationship between daily price changes and daily
 volume changes:
 
-\[
+$$
 \operatorname{CORD}_d =
 \operatorname{Corr}_d
 \left(
 \frac{C_t}{C_{t-1}},
 \log\left(\frac{V_t}{V_{t-1}}+1\right)
 \right)
-\]
+$$
 
 They may identify whether increases in price are accompanied by increases in
 volume. A strong positive relationship could indicate confirmation of a
@@ -138,10 +138,10 @@ and possible instability.
 VSTD5 measures the standard deviation of volume over the previous 5 days
 relative to the current volume:
 
-\[
+$$
 \operatorname{VSTD5} =
 \frac{\operatorname{Std}_5(V)}{V_t}
-\]
+$$
 
 A high value indicates unstable or changing trading activity. Sudden volume
 changes can occur around news, breakouts, or periods of stress, so this feature
@@ -152,16 +152,16 @@ may help the model identify unusual market conditions.
 WVMA measures the variability of volume weighted by the absolute daily price
 change. Let
 
-\[
+$$
 w_t=\left|\frac{C_t}{C_{t-1}}-1\right|V_t.
-\]
+$$
 
 The feature is calculated as:
 
-\[
+$$
 \operatorname{WVMA}_d =
 \frac{\operatorname{Std}_d(w)}{\operatorname{Mean}_d(w)}
-\]
+$$
 
 WVMA5 captures short-term changes in activity, while WVMA60 captures a
 longer-term pattern. A high value may indicate irregular attention or
@@ -175,10 +175,10 @@ associated with large price movements.
 STD5 is the rolling standard deviation of closing prices over 5 days,
 normalized by the current closing price:
 
-\[
+$$
 \operatorname{STD5} =
 \frac{\operatorname{Std}_5(C)}{C_t}
-\]
+$$
 
 It measures short-term price volatility on a comparable scale across stocks.
 Volatility may affect expected returns because high-volatility stocks can
