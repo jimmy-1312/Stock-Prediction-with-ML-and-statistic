@@ -5,5 +5,6 @@ Base ann return      : 16.67%
 Maximum Drawdown     : -27.79%
 Mean IC              : 0.0108
 Positive IC days     : 55.49%
-Sharpe Ratio         : 1.40
+Sharpe Ratio(Model)  : 1.25
+Sharpe Ratio(S&P500) : 0.78
 ======================================================================================
